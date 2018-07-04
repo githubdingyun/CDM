@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdm.dao.ProjectMapper" >
+  <resultMap id="BaseResultMap" type="com.cdm.model.Project" >
+    <id column="project_id" property="projectId" jdbcType="INTEGER" />
+    <result column="worker_id" property="workerId" jdbcType="INTEGER" />
+    <result column="location_id" property="locationId" jdbcType="INTEGER" />
+    <result column="project_title" property="projectTitle" jdbcType="VARCHAR" />
+    <result column="project_budget" property="projectBudget" jdbcType="REAL" />
+    <result column="project_start_date" property="projectStartDate" jdbcType="TIMESTAMP" />
+    <result column="project_end_date" property="projectEndDate" jdbcType="TIMESTAMP" />
+    <result column="project_desc" property="projectDesc" jdbcType="VARCHAR" />
+    <result column="project_base_url" property="projectBaseUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    project_id, worker_id, location_id, project_title, project_budget, project_start_date, 
+    project_end_date, project_desc, project_base_url
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.ProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from project
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cdm.model.ProjectExample" >
+    delete from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cdm.model.Project" >
+    insert into project (project_id, worker_id, location_id, 
+      project_title, project_budget, project_start_date, 
+      project_end_date, project_desc, project_base_url
+      )
+    values (#{projectId,jdbcType=INTEGER}, #{workerId,jdbcType=INTEGER}, #{locationId,jdbcType=INTEGER}, 
+      #{projectTitle,jdbcType=VARCHAR}, #{projectBudget,jdbcType=REAL}, #{projectStartDate,jdbcType=TIMESTAMP}, 
+      #{projectEndDate,jdbcType=TIMESTAMP}, #{projectDesc,jdbcType=VARCHAR}, #{projectBaseUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.cdm.model.Project" >
+    insert into project
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="workerId != null" >
+        worker_id,
+      </if>
+      <if test="locationId != null" >
+        location_id,
+      </if>
+      <if test="projectTitle != null" >
+        project_title,
+      </if>
+      <if test="projectBudget != null" >
+        project_budget,
+      </if>
+      <if test="projectStartDate != null" >
+        project_start_date,
+      </if>
+      <if test="projectEndDate != null" >
+        project_end_date,
+      </if>
+      <if test="projectDesc != null" >
+        project_desc,
+      </if>
+      <if test="projectBaseUrl != null" >
+        project_base_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="workerId != null" >
+        #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null" >
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="projectTitle != null" >
+        #{projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBudget != null" >
+        #{projectBudget,jdbcType=REAL},
+      </if>
+      <if test="projectStartDate != null" >
+        #{projectStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectEndDate != null" >
+        #{projectEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectDesc != null" >
+        #{projectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBaseUrl != null" >
+        #{projectBaseUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cdm.model.ProjectExample" resultType="java.lang.Integer" >
+    select count(*) from project
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project
+    <set >
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerId != null" >
+        worker_id = #{record.workerId,jdbcType=INTEGER},
+      </if>
+      <if test="record.locationId != null" >
+        location_id = #{record.locationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectTitle != null" >
+        project_title = #{record.projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectBudget != null" >
+        project_budget = #{record.projectBudget,jdbcType=REAL},
+      </if>
+      <if test="record.projectStartDate != null" >
+        project_start_date = #{record.projectStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectEndDate != null" >
+        project_end_date = #{record.projectEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.projectDesc != null" >
+        project_desc = #{record.projectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectBaseUrl != null" >
+        project_base_url = #{record.projectBaseUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project
+    set project_id = #{record.projectId,jdbcType=INTEGER},
+      worker_id = #{record.workerId,jdbcType=INTEGER},
+      location_id = #{record.locationId,jdbcType=INTEGER},
+      project_title = #{record.projectTitle,jdbcType=VARCHAR},
+      project_budget = #{record.projectBudget,jdbcType=REAL},
+      project_start_date = #{record.projectStartDate,jdbcType=TIMESTAMP},
+      project_end_date = #{record.projectEndDate,jdbcType=TIMESTAMP},
+      project_desc = #{record.projectDesc,jdbcType=VARCHAR},
+      project_base_url = #{record.projectBaseUrl,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdm.model.Project" >
+    update project
+    <set >
+      <if test="workerId != null" >
+        worker_id = #{workerId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null" >
+        location_id = #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="projectTitle != null" >
+        project_title = #{projectTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBudget != null" >
+        project_budget = #{projectBudget,jdbcType=REAL},
+      </if>
+      <if test="projectStartDate != null" >
+        project_start_date = #{projectStartDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectEndDate != null" >
+        project_end_date = #{projectEndDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectDesc != null" >
+        project_desc = #{projectDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="projectBaseUrl != null" >
+        project_base_url = #{projectBaseUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cdm.model.Project" >
+    update project
+    set worker_id = #{workerId,jdbcType=INTEGER},
+      location_id = #{locationId,jdbcType=INTEGER},
+      project_title = #{projectTitle,jdbcType=VARCHAR},
+      project_budget = #{projectBudget,jdbcType=REAL},
+      project_start_date = #{projectStartDate,jdbcType=TIMESTAMP},
+      project_end_date = #{projectEndDate,jdbcType=TIMESTAMP},
+      project_desc = #{projectDesc,jdbcType=VARCHAR},
+      project_base_url = #{projectBaseUrl,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+  </update>
+</mapper>

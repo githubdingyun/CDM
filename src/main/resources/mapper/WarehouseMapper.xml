@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdm.dao.WarehouseMapper" >
+  <resultMap id="BaseResultMap" type="com.cdm.model.Warehouse" >
+    <id column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="location_id" property="locationId" jdbcType="INTEGER" />
+    <result column="warehouse_area" property="warehouseArea" jdbcType="REAL" />
+    <result column="warehouse_phone" property="warehousePhone" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    warehouse_id, supplier_id, location_id, warehouse_area, warehouse_phone
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.WarehouseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cdm.model.WarehouseExample" >
+    delete from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cdm.model.Warehouse" >
+    insert into warehouse (warehouse_id, supplier_id, location_id, 
+      warehouse_area, warehouse_phone)
+    values (#{warehouseId,jdbcType=INTEGER}, #{supplierId,jdbcType=INTEGER}, #{locationId,jdbcType=INTEGER}, 
+      #{warehouseArea,jdbcType=REAL}, #{warehousePhone,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cdm.model.Warehouse" >
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="locationId != null" >
+        location_id,
+      </if>
+      <if test="warehouseArea != null" >
+        warehouse_area,
+      </if>
+      <if test="warehousePhone != null" >
+        warehouse_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null" >
+        #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseArea != null" >
+        #{warehouseArea,jdbcType=REAL},
+      </if>
+      <if test="warehousePhone != null" >
+        #{warehousePhone,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cdm.model.WarehouseExample" resultType="java.lang.Integer" >
+    select count(*) from warehouse
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update warehouse
+    <set >
+      <if test="record.warehouseId != null" >
+        warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.locationId != null" >
+        location_id = #{record.locationId,jdbcType=INTEGER},
+      </if>
+      <if test="record.warehouseArea != null" >
+        warehouse_area = #{record.warehouseArea,jdbcType=REAL},
+      </if>
+      <if test="record.warehousePhone != null" >
+        warehouse_phone = #{record.warehousePhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update warehouse
+    set warehouse_id = #{record.warehouseId,jdbcType=INTEGER},
+      supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      location_id = #{record.locationId,jdbcType=INTEGER},
+      warehouse_area = #{record.warehouseArea,jdbcType=REAL},
+      warehouse_phone = #{record.warehousePhone,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdm.model.Warehouse" >
+    update warehouse
+    <set >
+      <if test="supplierId != null" >
+        supplier_id = #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="locationId != null" >
+        location_id = #{locationId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseArea != null" >
+        warehouse_area = #{warehouseArea,jdbcType=REAL},
+      </if>
+      <if test="warehousePhone != null" >
+        warehouse_phone = #{warehousePhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cdm.model.Warehouse" >
+    update warehouse
+    set supplier_id = #{supplierId,jdbcType=INTEGER},
+      location_id = #{locationId,jdbcType=INTEGER},
+      warehouse_area = #{warehouseArea,jdbcType=REAL},
+      warehouse_phone = #{warehousePhone,jdbcType=VARCHAR}
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+</mapper>

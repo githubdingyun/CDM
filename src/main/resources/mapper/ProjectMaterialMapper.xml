@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdm.dao.ProjectMaterialMapper" >
+  <resultMap id="BaseResultMap" type="com.cdm.model.ProjectMaterial" >
+    <id column="project_id" property="projectId" jdbcType="INTEGER" />
+    <id column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="project_material_num" property="projectMaterialNum" jdbcType="INTEGER" />
+    <result column="project_material_desc" property="projectMaterialDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    project_id, material_id, project_material_num, project_material_desc
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.ProjectMaterialExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from project_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.cdm.model.ProjectMaterialKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from project_material
+    where project_id = #{projectId,jdbcType=INTEGER}
+      and material_id = #{materialId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.cdm.model.ProjectMaterialKey" >
+    delete from project_material
+    where project_id = #{projectId,jdbcType=INTEGER}
+      and material_id = #{materialId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cdm.model.ProjectMaterialExample" >
+    delete from project_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cdm.model.ProjectMaterial" >
+    insert into project_material (project_id, material_id, project_material_num, 
+      project_material_desc)
+    values (#{projectId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, #{projectMaterialNum,jdbcType=INTEGER}, 
+      #{projectMaterialDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cdm.model.ProjectMaterial" >
+    insert into project_material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        project_id,
+      </if>
+      <if test="materialId != null" >
+        material_id,
+      </if>
+      <if test="projectMaterialNum != null" >
+        project_material_num,
+      </if>
+      <if test="projectMaterialDesc != null" >
+        project_material_desc,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="projectId != null" >
+        #{projectId,jdbcType=INTEGER},
+      </if>
+      <if test="materialId != null" >
+        #{materialId,jdbcType=INTEGER},
+      </if>
+      <if test="projectMaterialNum != null" >
+        #{projectMaterialNum,jdbcType=INTEGER},
+      </if>
+      <if test="projectMaterialDesc != null" >
+        #{projectMaterialDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cdm.model.ProjectMaterialExample" resultType="java.lang.Integer" >
+    select count(*) from project_material
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update project_material
+    <set >
+      <if test="record.projectId != null" >
+        project_id = #{record.projectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.materialId != null" >
+        material_id = #{record.materialId,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectMaterialNum != null" >
+        project_material_num = #{record.projectMaterialNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.projectMaterialDesc != null" >
+        project_material_desc = #{record.projectMaterialDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update project_material
+    set project_id = #{record.projectId,jdbcType=INTEGER},
+      material_id = #{record.materialId,jdbcType=INTEGER},
+      project_material_num = #{record.projectMaterialNum,jdbcType=INTEGER},
+      project_material_desc = #{record.projectMaterialDesc,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdm.model.ProjectMaterial" >
+    update project_material
+    <set >
+      <if test="projectMaterialNum != null" >
+        project_material_num = #{projectMaterialNum,jdbcType=INTEGER},
+      </if>
+      <if test="projectMaterialDesc != null" >
+        project_material_desc = #{projectMaterialDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where project_id = #{projectId,jdbcType=INTEGER}
+      and material_id = #{materialId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cdm.model.ProjectMaterial" >
+    update project_material
+    set project_material_num = #{projectMaterialNum,jdbcType=INTEGER},
+      project_material_desc = #{projectMaterialDesc,jdbcType=VARCHAR}
+    where project_id = #{projectId,jdbcType=INTEGER}
+      and material_id = #{materialId,jdbcType=INTEGER}
+  </update>
+</mapper>

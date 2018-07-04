@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdm.dao.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com.cdm.model.Supplier" >
+    <id column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="supplier_address" property="supplierAddress" jdbcType="VARCHAR" />
+    <result column="supplier_phone" property="supplierPhone" jdbcType="VARCHAR" />
+    <result column="supplier_account" property="supplierAccount" jdbcType="VARCHAR" />
+    <result column="supplier_img_url" property="supplierImgUrl" jdbcType="VARCHAR" />
+    <result column="supplier_desc" property="supplierDesc" jdbcType="VARCHAR" />
+    <result column="supplier_email" property="supplierEmail" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    supplier_id, supplier_name, supplier_address, supplier_phone, supplier_account, supplier_img_url, 
+    supplier_desc, supplier_email
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.SupplierExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from supplier
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from supplier
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cdm.model.SupplierExample" >
+    delete from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cdm.model.Supplier" >
+    insert into supplier (supplier_id, supplier_name, supplier_address, 
+      supplier_phone, supplier_account, supplier_img_url, 
+      supplier_desc, supplier_email)
+    values (#{supplierId,jdbcType=INTEGER}, #{supplierName,jdbcType=VARCHAR}, #{supplierAddress,jdbcType=VARCHAR}, 
+      #{supplierPhone,jdbcType=VARCHAR}, #{supplierAccount,jdbcType=VARCHAR}, #{supplierImgUrl,jdbcType=VARCHAR}, 
+      #{supplierDesc,jdbcType=VARCHAR}, #{supplierEmail,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cdm.model.Supplier" >
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="supplierId != null" >
+        supplier_id,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="supplierAddress != null" >
+        supplier_address,
+      </if>
+      <if test="supplierPhone != null" >
+        supplier_phone,
+      </if>
+      <if test="supplierAccount != null" >
+        supplier_account,
+      </if>
+      <if test="supplierImgUrl != null" >
+        supplier_img_url,
+      </if>
+      <if test="supplierDesc != null" >
+        supplier_desc,
+      </if>
+      <if test="supplierEmail != null" >
+        supplier_email,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="supplierId != null" >
+        #{supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null" >
+        #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPhone != null" >
+        #{supplierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAccount != null" >
+        #{supplierAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierImgUrl != null" >
+        #{supplierImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierDesc != null" >
+        #{supplierDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierEmail != null" >
+        #{supplierEmail,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cdm.model.SupplierExample" resultType="java.lang.Integer" >
+    select count(*) from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier
+    <set >
+      <if test="record.supplierId != null" >
+        supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierAddress != null" >
+        supplier_address = #{record.supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierPhone != null" >
+        supplier_phone = #{record.supplierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierAccount != null" >
+        supplier_account = #{record.supplierAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierImgUrl != null" >
+        supplier_img_url = #{record.supplierImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierDesc != null" >
+        supplier_desc = #{record.supplierDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierEmail != null" >
+        supplier_email = #{record.supplierEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier
+    set supplier_id = #{record.supplierId,jdbcType=INTEGER},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      supplier_address = #{record.supplierAddress,jdbcType=VARCHAR},
+      supplier_phone = #{record.supplierPhone,jdbcType=VARCHAR},
+      supplier_account = #{record.supplierAccount,jdbcType=VARCHAR},
+      supplier_img_url = #{record.supplierImgUrl,jdbcType=VARCHAR},
+      supplier_desc = #{record.supplierDesc,jdbcType=VARCHAR},
+      supplier_email = #{record.supplierEmail,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdm.model.Supplier" >
+    update supplier
+    <set >
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAddress != null" >
+        supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPhone != null" >
+        supplier_phone = #{supplierPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierAccount != null" >
+        supplier_account = #{supplierAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierImgUrl != null" >
+        supplier_img_url = #{supplierImgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierDesc != null" >
+        supplier_desc = #{supplierDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierEmail != null" >
+        supplier_email = #{supplierEmail,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cdm.model.Supplier" >
+    update supplier
+    set supplier_name = #{supplierName,jdbcType=VARCHAR},
+      supplier_address = #{supplierAddress,jdbcType=VARCHAR},
+      supplier_phone = #{supplierPhone,jdbcType=VARCHAR},
+      supplier_account = #{supplierAccount,jdbcType=VARCHAR},
+      supplier_img_url = #{supplierImgUrl,jdbcType=VARCHAR},
+      supplier_desc = #{supplierDesc,jdbcType=VARCHAR},
+      supplier_email = #{supplierEmail,jdbcType=VARCHAR}
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </update>
+</mapper>

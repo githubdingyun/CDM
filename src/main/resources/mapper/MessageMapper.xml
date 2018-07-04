@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cdm.dao.MessageMapper" >
+  <resultMap id="BaseResultMap" type="com.cdm.model.Message" >
+    <id column="message_id" property="messageId" jdbcType="INTEGER" />
+    <result column="subject_id" property="subjectId" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="sender" property="sender" jdbcType="INTEGER" />
+    <result column="send_delete" property="sendDelete" jdbcType="TINYINT" />
+    <result column="send_status" property="sendStatus" jdbcType="TINYINT" />
+    <result column="save_time" property="saveTime" jdbcType="TIMESTAMP" />
+    <result column="send_time" property="sendTime" jdbcType="TIMESTAMP" />
+    <result column="send_update_time" property="sendUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="receiver" property="receiver" jdbcType="INTEGER" />
+    <result column="receive_delete" property="receiveDelete" jdbcType="TINYINT" />
+    <result column="receive_status" property="receiveStatus" jdbcType="TINYINT" />
+    <result column="receive_update_time" property="receiveUpdateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    message_id, subject_id, content, sender, send_delete, send_status, save_time, send_time, 
+    send_update_time, receiver, receive_delete, receive_status, receive_update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.MessageExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from message
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.cdm.model.MessageExample" >
+    delete from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.cdm.model.Message" >
+    insert into message (message_id, subject_id, content, 
+      sender, send_delete, send_status, 
+      save_time, send_time, send_update_time, 
+      receiver, receive_delete, receive_status, 
+      receive_update_time)
+    values (#{messageId,jdbcType=INTEGER}, #{subjectId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
+      #{sender,jdbcType=INTEGER}, #{sendDelete,jdbcType=TINYINT}, #{sendStatus,jdbcType=TINYINT}, 
+      #{saveTime,jdbcType=TIMESTAMP}, #{sendTime,jdbcType=TIMESTAMP}, #{sendUpdateTime,jdbcType=TIMESTAMP}, 
+      #{receiver,jdbcType=INTEGER}, #{receiveDelete,jdbcType=TINYINT}, #{receiveStatus,jdbcType=TINYINT}, 
+      #{receiveUpdateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.cdm.model.Message" >
+    insert into message
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        message_id,
+      </if>
+      <if test="subjectId != null" >
+        subject_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="sender != null" >
+        sender,
+      </if>
+      <if test="sendDelete != null" >
+        send_delete,
+      </if>
+      <if test="sendStatus != null" >
+        send_status,
+      </if>
+      <if test="saveTime != null" >
+        save_time,
+      </if>
+      <if test="sendTime != null" >
+        send_time,
+      </if>
+      <if test="sendUpdateTime != null" >
+        send_update_time,
+      </if>
+      <if test="receiver != null" >
+        receiver,
+      </if>
+      <if test="receiveDelete != null" >
+        receive_delete,
+      </if>
+      <if test="receiveStatus != null" >
+        receive_status,
+      </if>
+      <if test="receiveUpdateTime != null" >
+        receive_update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="messageId != null" >
+        #{messageId,jdbcType=INTEGER},
+      </if>
+      <if test="subjectId != null" >
+        #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        #{sender,jdbcType=INTEGER},
+      </if>
+      <if test="sendDelete != null" >
+        #{sendDelete,jdbcType=TINYINT},
+      </if>
+      <if test="sendStatus != null" >
+        #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="saveTime != null" >
+        #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendUpdateTime != null" >
+        #{sendUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        #{receiver,jdbcType=INTEGER},
+      </if>
+      <if test="receiveDelete != null" >
+        #{receiveDelete,jdbcType=TINYINT},
+      </if>
+      <if test="receiveStatus != null" >
+        #{receiveStatus,jdbcType=TINYINT},
+      </if>
+      <if test="receiveUpdateTime != null" >
+        #{receiveUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.cdm.model.MessageExample" resultType="java.lang.Integer" >
+    select count(*) from message
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update message
+    <set >
+      <if test="record.messageId != null" >
+        message_id = #{record.messageId,jdbcType=INTEGER},
+      </if>
+      <if test="record.subjectId != null" >
+        subject_id = #{record.subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sender != null" >
+        sender = #{record.sender,jdbcType=INTEGER},
+      </if>
+      <if test="record.sendDelete != null" >
+        send_delete = #{record.sendDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.sendStatus != null" >
+        send_status = #{record.sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.saveTime != null" >
+        save_time = #{record.saveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendTime != null" >
+        send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendUpdateTime != null" >
+        send_update_time = #{record.sendUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receiver != null" >
+        receiver = #{record.receiver,jdbcType=INTEGER},
+      </if>
+      <if test="record.receiveDelete != null" >
+        receive_delete = #{record.receiveDelete,jdbcType=TINYINT},
+      </if>
+      <if test="record.receiveStatus != null" >
+        receive_status = #{record.receiveStatus,jdbcType=TINYINT},
+      </if>
+      <if test="record.receiveUpdateTime != null" >
+        receive_update_time = #{record.receiveUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update message
+    set message_id = #{record.messageId,jdbcType=INTEGER},
+      subject_id = #{record.subjectId,jdbcType=INTEGER},
+      content = #{record.content,jdbcType=VARCHAR},
+      sender = #{record.sender,jdbcType=INTEGER},
+      send_delete = #{record.sendDelete,jdbcType=TINYINT},
+      send_status = #{record.sendStatus,jdbcType=TINYINT},
+      save_time = #{record.saveTime,jdbcType=TIMESTAMP},
+      send_time = #{record.sendTime,jdbcType=TIMESTAMP},
+      send_update_time = #{record.sendUpdateTime,jdbcType=TIMESTAMP},
+      receiver = #{record.receiver,jdbcType=INTEGER},
+      receive_delete = #{record.receiveDelete,jdbcType=TINYINT},
+      receive_status = #{record.receiveStatus,jdbcType=TINYINT},
+      receive_update_time = #{record.receiveUpdateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cdm.model.Message" >
+    update message
+    <set >
+      <if test="subjectId != null" >
+        subject_id = #{subjectId,jdbcType=INTEGER},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sender != null" >
+        sender = #{sender,jdbcType=INTEGER},
+      </if>
+      <if test="sendDelete != null" >
+        send_delete = #{sendDelete,jdbcType=TINYINT},
+      </if>
+      <if test="sendStatus != null" >
+        send_status = #{sendStatus,jdbcType=TINYINT},
+      </if>
+      <if test="saveTime != null" >
+        save_time = #{saveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendTime != null" >
+        send_time = #{sendTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendUpdateTime != null" >
+        send_update_time = #{sendUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receiver != null" >
+        receiver = #{receiver,jdbcType=INTEGER},
+      </if>
+      <if test="receiveDelete != null" >
+        receive_delete = #{receiveDelete,jdbcType=TINYINT},
+      </if>
+      <if test="receiveStatus != null" >
+        receive_status = #{receiveStatus,jdbcType=TINYINT},
+      </if>
+      <if test="receiveUpdateTime != null" >
+        receive_update_time = #{receiveUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cdm.model.Message" >
+    update message
+    set subject_id = #{subjectId,jdbcType=INTEGER},
+      content = #{content,jdbcType=VARCHAR},
+      sender = #{sender,jdbcType=INTEGER},
+      send_delete = #{sendDelete,jdbcType=TINYINT},
+      send_status = #{sendStatus,jdbcType=TINYINT},
+      save_time = #{saveTime,jdbcType=TIMESTAMP},
+      send_time = #{sendTime,jdbcType=TIMESTAMP},
+      send_update_time = #{sendUpdateTime,jdbcType=TIMESTAMP},
+      receiver = #{receiver,jdbcType=INTEGER},
+      receive_delete = #{receiveDelete,jdbcType=TINYINT},
+      receive_status = #{receiveStatus,jdbcType=TINYINT},
+      receive_update_time = #{receiveUpdateTime,jdbcType=TIMESTAMP}
+    where message_id = #{messageId,jdbcType=INTEGER}
+  </update>
+</mapper>
