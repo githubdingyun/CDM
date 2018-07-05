@@ -4,30 +4,25 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<%
-	if (request.getSession().getAttribute("username") == null) {
-		response.sendRedirect("login.jsp");
-	}
-%>
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>管理平台</title>
-
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+<title>管理平台${pageContext.request.contextPath}</title>
+<link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
 
 <!-- Toastr style -->
-<link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
 <!-- Gritter -->
-<link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
-<link href="css/animate.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="css/my.css" />
+<link href="${pageContext.request.contextPath}/static/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/animate.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/my.css" />
 
-<link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/static/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 
 </head>
 <body>
@@ -44,7 +39,7 @@
 							class="clear"> <span class="block m-t-xs"> <strong
 									class="font-bold"><div
 											style="font-size: 30px; color: red"></div></strong>
-							</span> <span class="text-muted text-xs block">用户${username}<b
+							</span> <span class="text-muted text-xs block">用户{username}<b
 									class="caret"></b></span>
 						</span>
 						</a>
@@ -136,13 +131,13 @@
 											</tr>
 										</thead>
 										<tbody>
-											<c:forEach items="${message}" var="worker">
+											<c:forEach items="{message}" var="worker">
 												<tr class="gradeX" id="row">
-													<td>${worker.wid}</td>
-													<td>﻿﻿ ${worker.wname}</td>
-													<td>${worker.wmail}</td>
-													<td class="center">${worker.wphone}</td>
-													<td class="center">${worker.username}</td>
+													<td>{worker.wid}</td>
+													<td>﻿﻿ {worker.wname}</td>
+													<td>{worker.wmail}</td>
+													<td class="center">{worker.wphone}</td>
+													<td class="center">{worker.username}</td>
 													<td class="center">
 													<a href="#">
 															<button type="button" class="btn btn-primary"
@@ -205,7 +200,7 @@
 
 				<div class="modal-footer">
 					<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-					<a href="DeleteSvt?wid=${worker.wid}"><button type="button" class="btn btn-primary">删除并退出</button></a>
+					<a href="DeleteSvt?wid={worker.wid}"><button type="button" class="btn btn-primary">删除并退出</button></a>
 				</div>
 			</div>
 		</div>
@@ -254,7 +249,7 @@
 						<strong>输入编辑修改内容</strong> ~~~~~~~~~~~~~~~~~~~·.
 					</p>
 				</div>
-				<form class="m-t" role="form" action="UpdateSvt?id=${worker.wid}">
+				<form class="m-t" role="form" action="UpdateSvt?id={worker.wid}">
 					<div class="form-group">
 						<input type="text" class="form-control" name="username"
 							placeholder="用户名" required="">
@@ -292,6 +287,7 @@
 							<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
 							<button type="submit" class="btn btn-primary">保存</button>
 						</div>
+					</div>
 				</form>
 			</div>
 		</div>
@@ -299,24 +295,24 @@
 
                     
 	<!-- Mainly scripts -->
-	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery-3.1.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
-	<script src="js/plugins/dataTables/datatables.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/dataTables/datatables.min.js"></script>
 
 	<!-- Custom and plugin javascript -->
-	<script src="js/inspinia.js"></script>
-	<script src="js/plugins/pace/pace.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/inspinia.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/pace/pace.min.js"></script>
 
 
 	<!-- Toastr -->
-	<script src="js/plugins/toastr/toastr.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/toastr/toastr.min.js"></script>
 
 
 	<script>
-		$(document).ready(function() {
+		(document).ready(function() {
 			setTimeout(function() {
 				toastr.options = {
 					closeButton : true,
@@ -329,10 +325,10 @@
 			}, 3000);
 		});
 
-		$(document)
+		(document)
 				.ready(
 						function() {
-							$('.dataTables-example')
+							('.dataTables-example')
 									.DataTable(
 											{
 												language : {
@@ -361,17 +357,17 @@
 															extend : 'print',
 															customize : function(
 																	win) {
-																$(
+																(
 																		win.document.body)
 																		.addClass(
 																				'white-bg');
-																$(
+																(
 																		win.document.body)
 																		.css(
 																				'font-size',
 																				'10px');
 
-																$(
+																(
 																		win.document.body)
 																		.find(
 																				'table')
@@ -387,8 +383,8 @@
 
 						});
 
-		//      $(document).ready(function() {
-		//  $('.dataTables-example').DataTable({
+		//      (document).ready(function() {
+		//  ('.dataTables-example').DataTable({
 		//      language: {
 		//          url: 'zh_CN.txt',
 		//      },

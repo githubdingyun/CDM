@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page isELIgnored="false"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 
@@ -12,12 +13,12 @@
 
     <title>登陆~</title>
 
-    <base href="${pageContext.request.contextPath}">
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <base href="http://localhost:8080/CDM/">
+    <link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="/static/css/animate.css" rel="stylesheet">
-    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/static/css/animate.css" rel="sstylesheet">
+    <link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -44,25 +45,25 @@
             </div>
             <div class="col-md-6">
                 <div class="ibox-content">
-                    <form class="m-t" role="form" action="LoginSvt">
+                    <form class="m-t" role="form" action="./WorkerController/userVerifier.do">
                         <div class="form-group">
-                            <input type="text" class="form-control" name="username" placeholder="账号" required="">
+                            <input type="text" class="form-control" name="WorkerName" placeholder="账号" required="">
                         </div>
                     
                         <div class="form-group">
-                            <input type="password" class="form-control" name="password" placeholder="密码" required="">
+                            <input type="password" class="form-control" name="WorkerPassword" placeholder="密码" required="">
                         </div>
                         
                         <button type="submit" class="btn btn-primary block full-width m-b">登陆</button>
 
                         <a href="#">
-                            <small>忘记密码</small>
+                            <small> ${message}</small>
                         </a>
 
                         <p class="text-muted text-center">
                             <small>没有登陆账号？</small>
                         </p>
-                        <a class="btn btn-sm btn-white btn-block" href="register.html">申请一个账号</a>
+                        <a class="btn btn-sm btn-white btn-block" href="register.jsp">申请一个账号</a>
                     </form>
                     <p class="m-t" style="text-align: center;">
                         <small>公司管理平台欢迎您的使用</small>
