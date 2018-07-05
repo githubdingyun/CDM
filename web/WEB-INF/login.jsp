@@ -6,19 +6,18 @@
 <html>
 
 <head>
-<%
-session.invalidate();
-%>
+
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>登陆~</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <base href="${pageContext.request.contextPath}">
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+    <link href="/static/css/animate.css" rel="stylesheet">
+    <link href="/static/css/style.css" rel="stylesheet">
 
 </head>
 
@@ -30,7 +29,7 @@ session.invalidate();
             <div class="col-md-6">
                 <h2 class="font-bold">欢迎来到公司管理平台</h2>
 				<p>
-						您好！！
+                    您好！！${pageContext.request.contextPath}
 					
 				</p>
                 <p>
@@ -63,7 +62,7 @@ session.invalidate();
                         <p class="text-muted text-center">
                             <small>没有登陆账号？</small>
                         </p>
-                        <a class="btn btn-sm btn-white btn-block" href="register2.html">申请一个账号</a>
+                        <a class="btn btn-sm btn-white btn-block" href="register.html">申请一个账号</a>
                     </form>
                     <p class="m-t" style="text-align: center;">
                         <small>公司管理平台欢迎您的使用</small>
