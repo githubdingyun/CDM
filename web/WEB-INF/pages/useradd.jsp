@@ -1,75 +1,140 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+		 pageEncoding="UTF-8" %>
+<%@ taglib prefix="c"
+		   uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<title>管理员式添加用户</title>
-<link href="css/bootstrap.min.css" rel="stylesheet">
-<link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-<link href="css/plugins/iCheck/custom.css" rel="stylesheet">
-<link href="css/plugins/steps/jquery.steps.css" rel="stylesheet">
-<link href="css/animate.css" rel="stylesheet">
-<link href="css/style.css" rel="stylesheet">
+	<title>管理平台</title>
+
+	<jsp:useBean id="worker" scope="session" type="com.cdm.model.Worker"/>
+
+	<!-- Sweet Alert    这是一个跳出漂亮样式模态框的样式-->
+	<link href="${pageContext.request.contextPath}/static/css/plugins/sweetalert/sweetalert.css"
+		  rel="stylesheet">
+
+
+	<!-- Bootstrap core CSS -->
+	<link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/static/css/plugins/steps/jquery.steps.css" rel="stylesheet">
+	<!-- Toastr style -->
+	<link href="${pageContext.request.contextPath}/static/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+
+	<!-- Gritter -->
+	<link href="${pageContext.request.contextPath}/static/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/static/css/animate.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/static/css/style.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/static/css/my.css"/>
+
+	<link href="${pageContext.request.contextPath}/static/css/plugins/dataTables/datatables.min.css" rel="stylesheet">
 
 </head>
 <body>
-	<div id="wrapper">
-		<!--左侧菜单的开始-->
-		<nav class="navbar-default navbar-static-side" role="navigation">
+<div id="wrapper">
+	<!--左侧菜单的开始-->
+	<nav class="navbar-default navbar-static-side" role="navigation">
 		<div class="sidebar-collapse">
 			<ul class="nav metismenu" id="side-menu">
 				<li class="nav-header">
-					<div class="dropdown profile-element  my-profile-content ">
-						<span> <img alt="image" class="img-circle"
-							src="img/profile.jpg" width=80px; height=80px />
-						</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
-							class="clear"> <span class="block m-t-xs"> <strong
-									class="font-bold"><div
-											style="font-size: 30px; color: red"></div></strong>
-							</span> <span class="text-muted text-xs block">用户${username}<b
-									class="caret"></b></span>
-						</span>
-						</a>
+					<div class="dropdown profile-element  my-profile-content "> <span>
+                            <img alt="image" class="img-circle" src="${worker.workerImgUrl}" width=80px; height=80px/>
+                             </span>
+						<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><div
+									style="font-size: 30px;color: red"></div></strong>
+                             </span> <span class="text-muted text-xs block"><c:if
+									test="${worker.subjectId == 0}">管理员</c:if>
+                                <c:if test="${worker.subjectId == 2}">用户</c:if>
+                                <c:if test="${worker.subjectId == 1}">项目经理</c:if>
+                                ${worker.workerName}
+                                <b class="caret"></b></span> </span> </a>
 						<ul class="dropdown-menu animated fadeInRight m-t-xs">
-							<li><a href="profile.jsp">个人主页</a></li>
-							<li><a href="permission.jsp">我的权限</a></li>
-							<li><a href="mailbox.jsp">我要投诉</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/profile.do">个人主页</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/permission.do">我的权限</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/mailbox.do">我要投诉</a></li>
 							<li class="divider"></li>
-							<li><a href="login.jsp">退出登录</a></li>
+							<li><a href="${pageContext.request.contextPath}/WorkerController/loginOut">退出登录</a></li>
 						</ul>
 					</div>
-					<div class="logo-element">IN+</div>
+					<div class="logo-element">
+						IN+
+					</div>
 				</li>
-				<li class="active"><a href="#"><i class="fa fa-th-large"></i>
-						<span class="nav-label">用户管理</span> <span class="fa arrow"></span></a>
+				<li class="">
+					<a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户管理</span> <span
+							class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
-						<li class="active"><a href="useradd.jsp">添加用户</a></li>
-						<li><a href="worker.jsp">员工信息</a></li>
-						<li><a href="manager.jsp">经理信息</a></li>
-					</ul></li>
-				<li><a href="#"><i class="fa fa-th-large"></i> <span
-						class="nav-label">工程管理</span><span class="fa arrow"></span></a>
-					<ul class="nav nav-second-level">
-						<li><a href="construction.jsp">项目信息</a></li>
-						<li><a href="cost.jsp">花费情况</a></li>
-						<li><a href="receipt.jsp">建材资料</a></li>
-						<li><a href="warehouse.jsp">仓库资料</a></li>
-						<li><a href="lease.jsp">工具租赁信息</a></li>
-					</ul></li>
-				<li><a href="#"><i class="fa fa-bar-chart-o"></i> <span
-						class="nav-label">详细选项</span><span class="fa arrow"></span></a>
+						<c:if test="${worker.subjectId == 0}">
+							<li class=""><a
+									href="${pageContext.request.contextPath}/BaseController/useradd.do">手动添加用户</a></li>
+						</c:if>
+
+						<li><a href="${pageContext.request.contextPath}/BaseController/base.do">员工信息</a></li>
+						<c:if test="${worker.subjectId == 0}">
+							<li><a href="${pageContext.request.contextPath}/BaseController/base.do">经理信息</a></li>
+						</c:if>
+					</ul>
+				</li>
+				<c:if test="${worker.subjectId <=1}">
+					<li>
+						<a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">工程管理</span><span
+								class="fa arrow"></span></a>
+						<ul class="nav nav-second-level">
+							<li><a href="${pageContext.request.contextPath}/BaseController/project.do">项目信息</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/supplier.do">供应商资料</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/material.do">建材资料</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/warehouse.do">仓库资料</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/location.do">项目场地信息</a></li>
+							<li><a href="${pageContext.request.contextPath}/BaseController/subject.do">部门详情</a></li>
+						</ul>
+					</li>
+				</c:if>
+				<li>
+					<a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">站内信箱</span><span
+							class="fa arrow"></span></a>
 					<ul class="nav nav-second-level collapse">
-						<li><a href="pro_yes.jsp">未同意请求</a></li>
-						<li><a href="pro_no.jsp">已同意请求</a></li>
-					</ul></li>
+						<li><a href="${pageContext.request.contextPath}/BaseController/message.do">收件箱</a></li>
+						<li><a href="${pageContext.request.contextPath}/BaseController/message.do">发邮件</a></li>
+						<li><a href="${pageContext.request.contextPath}/BaseController/message.do">回收站</a></li>
+					</ul>
+				</li>
+				<li>
+					<a href="#"><i class="fa fa-edit"></i> <span class="nav-label">站内公告</span><span
+							class="fa arrow"></span></a>
+					<ul class="nav nav-second-level collapse">
+						<c:if test="${worker.subjectId == 1}">
+							<li><a href="${pageContext.request.contextPath}/BaseController/notice.do">发布公告</a></li>
+						</c:if>
+						<li><a href="${pageContext.request.contextPath}/BaseController/notice.do">查看公告内容</a></li>
+						<c:if test="${worker.subjectId == 1}">
+							<li><a href="${pageContext.request.contextPath}/BaseController/notice.do">删除公告</a></li>
+						</c:if>
+					</ul>
+				</li>
+				<c:if test="${worker.subjectId <= 1 }">
+					<li>
+						<a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">项目详情</span><span
+								class="fa arrow"></span></a>
+						<ul class="nav nav-second-level collapse">
+							<li>
+								<a href="${pageContext.request.contextPath}/BaseController/projectMaterial.do">项目材料需求供应情况</a>
+							</li>
+							<li>
+								<a href="${pageContext.request.contextPath}/BaseController/warehouseMaterial.do">厂库存储货物情况</a>
+							</li>
+						</ul>
+					</li>
+				</c:if>
 			</ul>
 		</div>
-		</nav>
+	</nav>
 
-		<!--左侧菜单的结束-->
+	<!--左侧菜单的结束-->
 		<div id="page-wrapper" class="gray-bg">
 
 			<div class="wrapper wrapper-content animated fadeInRight">
@@ -96,7 +161,7 @@
 								<h2>你需要要记住你的注册信息~</h2>
 								<p>请按照以下注册步骤完成注册~</p>
 
-								<form id="form" action="RegisterSvt" class="wizard-big">
+								<form id="form" action="${pageContext.request.contextPath}/WorkerController/add.do" class="wizard-big">
 									<h1>账户</h1>
 									<fieldset>
 										<h2>账户信息</h2>
@@ -202,20 +267,20 @@
 
 
 	<!-- Mainly scripts -->
-	<script src="js/jquery-3.1.1.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
-	<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/jquery-3.1.1.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/metisMenu/jquery.metisMenu.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 	<!-- Custom and plugin javascript -->
-	<script src="js/inspinia.js"></script>
-	<script src="js/plugins/pace/pace.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/inspinia.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/pace/pace.min.js"></script>
 
 	<!-- Steps -->
-	<script src="js/plugins/steps/jquery.steps.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/steps/jquery.steps.min.js"></script>
 
 	<!-- Jquery Validate -->
-	<script src="js/plugins/validate/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/static/js/plugins/validate/jquery.validate.min.js"></script>
 
 
 	<script>

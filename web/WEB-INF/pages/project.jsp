@@ -174,24 +174,30 @@
                                 <table class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
+                                        <th>项目号</th>
+                                        <th>项目负责人id</th>
+                                        <th>场地id</th>
+                                        <th>项目名称</th>
+                                        <th>项目预算</th>
+                                        <th>项目开始日期</th>
+                                        <th>项目截至日期</th>
 
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <jsp:useBean id="locations" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${locations}" var="i">
+                                    <jsp:useBean id="projects" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${projects}" var="i">
                                         <tr class="gradeX" id="row">
-                                            <td>${i.locationId}</td>
-                                            <td>﻿﻿ ${i.locationAddress}</td>
-                                            <td>﻿﻿ ${i.locationCost}</td>
-                                            <td>${i.locationDesc}</td>
+                                            <td>${i.projectId}</td>
+                                            <td>﻿﻿ ${i.workerId}</td>
+                                            <td>﻿﻿ ${i.locationId}</td>
+                                            <td>${i.projectTitle}</td>
+                                            <td>${i.projectBudget}</td>
+                                            <td>${i.projectStartDate}</td>
+                                            <td>${i.projectEndDate}</td>
                                             <td class="center">
-                                                <a href="${pageContext.request.contextPath}/LocationController/query.do?locationId=${i.locationId}">
+                                                <a href="${pageContext.request.contextPath}/ProjectController/query.do?projectId=${i.projectId}">
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                             id="myshow" onclick="myshow(${i})">
                                                         查看介绍
@@ -206,7 +212,7 @@
                                                     </button>
 
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            onclick="deleteUser(${i.locationId})">
+                                                            onclick="deleteUser(${i.projectId})">
                                                         删除
                                                     </button>
                                                 </c:if>
@@ -218,10 +224,13 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
+                                        <th>项目号</th>
+                                        <th>项目负责人id</th>
+                                        <th>场地id</th>
+                                        <th>项目名称</th>
+                                        <th>项目预算</th>
+                                        <th>项目开始日期</th>
+                                        <th>项目截至日期</th>
 
                                         <th>操作</th>
                                     </tr>
@@ -251,39 +260,35 @@
                 <h4 class="modal-title">编辑信息</h4>
             </div>
             <div class="modal-body">
-                <form class="m-t" role="form" action="${pageContext.request.contextPath}/LocationController/update.do"
+                <form class="m-t" role="form" action="${pageContext.request.contextPath}/ProjectController/update.do"
                       method="post">
+
                     <div class="form-group">
-                        工号:<input class="form-control" type="text" name="locationId" value="" placeholder="工号">
+                        项目号:<input class="form-control" type="text" name="projectId" value="" placeholder="项目号">
                     </div>
                     <div class="form-group">
-                        部门号:<input class="form-control" type="text" name="locationAddress" value=""
-                                   placeholder="部门号">
+                        项目负责人id:<input class="form-control" type="text" name="workerId" value=""
+                                   placeholder="项目负责人id">
                     </div>
                     <div class="form-group">
-                        姓名: <input class="form-control" type="text" name="workerName" value="" placeholder="姓名">
+                        场地id: <input class="form-control" type="text" name="locationId" value="" placeholder="场地id">
 
                     </div>
+
                     <div class="form-group">
-                        男:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="男"
-                                 placeholder="${i.workerSex}">
-                        女:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="女"
-                                 placeholder="${i.workerSex}">
+                        项目名称: <input class="form-control" type="text" name="projectTitle" value=""
+                                   placeholder="项目名称">
                     </div>
                     <div class="form-group">
-                        地址: <input class="form-control" type="text" name="workerAddress" value=""
-                                   placeholder="地址">
+                        项目预算: <input class="form-control" type="text" name="projectBudget" value="" placeholder="项目预算">
                     </div>
                     <div class="form-group">
-                        年龄: <input class="form-control" type="text" name="workerAge" value="" placeholder="年龄">
+                        项目开始日期: <input class="form-control" type="text" name="projectStartDate" value=""
+                                   placeholder="项目开始日期">
                     </div>
                     <div class="form-group">
-                        电话: <input class="form-control" type="text" name="workerPhone" value=""
-                                   placeholder="电话">
-                    </div>
-                    <div class="form-group">
-                        emali: <input class="form-control" type="text" name="workerEmail" value=""
-                                      placeholder="emali">
+                        项目截至日期: <input class="form-control" type="text" name="projectEndDate" value=""
+                                      placeholder="项目截至日期">
                     </div>
 
                     <div class="modal-footer">
@@ -431,13 +436,13 @@
             if (isConfirm) {
                 $.ajax({
                     /*这里为请求地址*/
-                    url: "${pageContext.request.contextPath}/LocationController/delete.do?locationId=" + id,
+                    url: "${pageContext.request.contextPath}/ProjectController/delete.do?projectId=" + id,
                     dataType: "html",
                     success: function (data) {//意思是如果请求成功，即删除成功
                         // alert(data);
                         $("#table-content").html(data)
                         swal("删除成功！", "您已经永久删除了该用户信息", "success");
-                        location.reload(true);
+                        project.reload(true);
                     },
                     error: function () {//如果请求失败，则弹出下面的提示
                         swal("啊哦，删除失败", "服务器走丢了", "error");

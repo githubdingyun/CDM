@@ -65,12 +65,12 @@
                         IN+
                     </div>
                 </li>
-                <li class="active">
+                <li class="">
                     <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户管理</span> <span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
                         <c:if test="${worker.subjectId == 0}">
-                            <li class="active"><a
+                            <li class=""><a
                                     href="${pageContext.request.contextPath}/BaseController/useradd.do">手动添加用户</a></li>
                         </c:if>
 
@@ -201,7 +201,7 @@
                                             <td class="center">${i.workerEmail}</td>
                                             <td>${i.workerMoney}</td>
                                             <td class="center">
-                                                <a href="${pageContext.request.contextPath}/WorkerController/query.do?workerId=${worker.workerId}">
+                                                <a href="${pageContext.request.contextPath}/WorkerController/query.do?workerId=${i.workerId}">
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                             id="myshow" onclick="myshow(${i})">
                                                         查看介绍

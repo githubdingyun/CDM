@@ -174,24 +174,28 @@
                                 <table class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
+                                        <th>公告号</th>
+                                        <th>公告科目组号</th>
+                                        <th>公告创建者</th>
+                                        <th>公告更新者</th>
+                                        <th>公告时间</th>
+                                        <th>公告过期时间</th>
 
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <jsp:useBean id="locations" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${locations}" var="i">
+                                    <jsp:useBean id="notices" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${notices}" var="i">
                                         <tr class="gradeX" id="row">
-                                            <td>${i.locationId}</td>
-                                            <td>﻿﻿ ${i.locationAddress}</td>
-                                            <td>﻿﻿ ${i.locationCost}</td>
-                                            <td>${i.locationDesc}</td>
+                                            <td>${i.noticeId}</td>
+                                            <td>﻿﻿ ${i.receiveSubjectId}</td>
+                                            <td>﻿﻿ ${i.creater}</td>
+                                            <td>${i.updater}</td>
+                                            <td>${i.createTime}</td>
+                                            <td>${i.expireTime}</td>
                                             <td class="center">
-                                                <a href="${pageContext.request.contextPath}/LocationController/query.do?locationId=${i.locationId}">
+                                                <a href="${pageContext.request.contextPath}/NoticeController/query.do?noticeId=${i.noticeId}">
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                             id="myshow" onclick="myshow(${i})">
                                                         查看介绍
@@ -206,7 +210,7 @@
                                                     </button>
 
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            onclick="deleteUser(${i.locationId})">
+                                                            onclick="deleteUser(${i.noticeId})">
                                                         删除
                                                     </button>
                                                 </c:if>
@@ -218,11 +222,12 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
-
+                                        <th>公告号</th>
+                                        <th>公告科目组号</th>
+                                        <th>公告创建者</th>
+                                        <th>公告更新者</th>
+                                        <th>公告时间</th>
+                                        <th>公告过期时间</th>
                                         <th>操作</th>
                                     </tr>
                                     </tfoot>
@@ -251,39 +256,29 @@
                 <h4 class="modal-title">编辑信息</h4>
             </div>
             <div class="modal-body">
-                <form class="m-t" role="form" action="${pageContext.request.contextPath}/LocationController/update.do"
+                <form class="m-t" role="form" action="${pageContext.request.contextPath}/NoticeController/update.do"
                       method="post">
                     <div class="form-group">
-                        工号:<input class="form-control" type="text" name="locationId" value="" placeholder="工号">
+                        公告号:<input class="form-control" type="text" name="noticeId" value="" placeholder="公告号">
                     </div>
                     <div class="form-group">
-                        部门号:<input class="form-control" type="text" name="locationAddress" value=""
-                                   placeholder="部门号">
+                        公告科目组号:<input class="form-control" type="text" name="receiveSubjectId" value=""
+                                   placeholder="公告科目组号">
                     </div>
                     <div class="form-group">
-                        姓名: <input class="form-control" type="text" name="workerName" value="" placeholder="姓名">
+                        公告创建者: <input class="form-control" type="text" name="creater" value="" placeholder="公告创建者">
 
                     </div>
                     <div class="form-group">
-                        男:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="男"
-                                 placeholder="${i.workerSex}">
-                        女:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="女"
-                                 placeholder="${i.workerSex}">
+                        公告更新者: <input class="form-control" type="text" name="updater" value=""
+                                   placeholder="公告更新者">
                     </div>
                     <div class="form-group">
-                        地址: <input class="form-control" type="text" name="workerAddress" value=""
-                                   placeholder="地址">
+                        公告时间: <input class="form-control" type="text" name="createTime" value="" placeholder="公告时间">
                     </div>
                     <div class="form-group">
-                        年龄: <input class="form-control" type="text" name="workerAge" value="" placeholder="年龄">
-                    </div>
-                    <div class="form-group">
-                        电话: <input class="form-control" type="text" name="workerPhone" value=""
-                                   placeholder="电话">
-                    </div>
-                    <div class="form-group">
-                        emali: <input class="form-control" type="text" name="workerEmail" value=""
-                                      placeholder="emali">
+                        公告过期时间: <input class="form-control" type="text" name="expireTime" value=""
+                                   placeholder="公告过期时间">
                     </div>
 
                     <div class="modal-footer">
@@ -431,13 +426,13 @@
             if (isConfirm) {
                 $.ajax({
                     /*这里为请求地址*/
-                    url: "${pageContext.request.contextPath}/LocationController/delete.do?locationId=" + id,
+                    url: "${pageContext.request.contextPath}/NoticeController/delete.do?noticeId=" + id,
                     dataType: "html",
                     success: function (data) {//意思是如果请求成功，即删除成功
                         // alert(data);
                         $("#table-content").html(data)
                         swal("删除成功！", "您已经永久删除了该用户信息", "success");
-                        location.reload(true);
+                        notice.reload(true);
                     },
                     error: function () {//如果请求失败，则弹出下面的提示
                         swal("啊哦，删除失败", "服务器走丢了", "error");

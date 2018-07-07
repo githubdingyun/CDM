@@ -174,24 +174,24 @@
                                 <table class="table table-striped table-bordered table-hover dataTables-example">
                                     <thead>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
+                                        <th>厂库号</th>
+                                        <th>材料号</th>
+                                        <th>厂库材料数量</th>
+                                        <th>介绍</th>
 
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <jsp:useBean id="locations" scope="request" type="java.util.List"/>
-                                    <c:forEach items="${locations}" var="i">
+                                    <jsp:useBean id="warehouseMaterials" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${warehouseMaterials}" var="i">
                                         <tr class="gradeX" id="row">
-                                            <td>${i.locationId}</td>
-                                            <td>﻿﻿ ${i.locationAddress}</td>
-                                            <td>﻿﻿ ${i.locationCost}</td>
-                                            <td>${i.locationDesc}</td>
+                                            <td>${i.warehouseId}</td>
+                                            <td>﻿﻿ ${i.materialId}</td>
+                                            <td>﻿﻿ ${i.warehouseMaterialNum}</td>
+                                            <td>${i.warehouseMaterialDesc}</td>
                                             <td class="center">
-                                                <a href="${pageContext.request.contextPath}/LocationController/query.do?locationId=${i.locationId}">
+                                                <a href="${pageContext.request.contextPath}/WarehouseMaterialController/query.do?warehouseMaterialId=${i.warehouseId}">
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                                             id="myshow" onclick="myshow(${i})">
                                                         查看介绍
@@ -206,7 +206,7 @@
                                                     </button>
 
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            onclick="deleteUser(${i.locationId})">
+                                                            onclick="deleteUser(${i.warehouseId},${i.materialId})">
                                                         删除
                                                     </button>
                                                 </c:if>
@@ -218,10 +218,10 @@
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>场地号</th>
-                                        <th>场地地址</th>
-                                        <th>场地花费</th>
-                                        <th>场地介绍</th>
+                                        <th>厂库号</th>
+                                        <th>材料号</th>
+                                        <th>厂库材料数量</th>
+                                        <th>介绍</th>
 
                                         <th>操作</th>
                                     </tr>
@@ -251,13 +251,13 @@
                 <h4 class="modal-title">编辑信息</h4>
             </div>
             <div class="modal-body">
-                <form class="m-t" role="form" action="${pageContext.request.contextPath}/LocationController/update.do"
+                <form class="m-t" role="form" action="${pageContext.request.contextPath}/WarehouseMaterialController/update.do"
                       method="post">
                     <div class="form-group">
-                        工号:<input class="form-control" type="text" name="locationId" value="" placeholder="工号">
+                        工号:<input class="form-control" type="text" name="warehouseMaterialId" value="" placeholder="工号">
                     </div>
                     <div class="form-group">
-                        部门号:<input class="form-control" type="text" name="locationAddress" value=""
+                        部门号:<input class="form-control" type="text" name="warehouseMaterialAddress" value=""
                                    placeholder="部门号">
                     </div>
                     <div class="form-group">
@@ -416,7 +416,7 @@
 <script type="text/javascript">
 
     // 删除用户ajex
-    function deleteUser(id) {
+    function deleteUser(id1,id2) {
         swal({
             title: "您确定删除此用户信息么?",
             text: "删除后将无法恢复，请谨慎操作！",
@@ -431,13 +431,13 @@
             if (isConfirm) {
                 $.ajax({
                     /*这里为请求地址*/
-                    url: "${pageContext.request.contextPath}/LocationController/delete.do?locationId=" + id,
+                    url: "${pageContext.request.contextPath}/WarehouseMaterialController/delete.do?warehouseId=" + id1+"&&materialId="+id2,
                     dataType: "html",
                     success: function (data) {//意思是如果请求成功，即删除成功
                         // alert(data);
                         $("#table-content").html(data)
                         swal("删除成功！", "您已经永久删除了该用户信息", "success");
-                        location.reload(true);
+                        warehouseMaterial.reload(true);
                     },
                     error: function () {//如果请求失败，则弹出下面的提示
                         swal("啊哦，删除失败", "服务器走丢了", "error");
