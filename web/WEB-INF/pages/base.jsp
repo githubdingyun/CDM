@@ -11,6 +11,14 @@
 
     <title>管理平台</title>
 
+    <jsp:useBean id="worker" scope="session" type="com.cdm.model.Worker"/>
+
+    <!-- Sweet Alert    这是一个跳出漂亮样式模态框的样式-->
+    <link href="${pageContext.request.contextPath}/static/css/plugins/sweetalert/sweetalert.css"
+          rel="stylesheet">
+
+
+    <!-- Bootstrap core CSS -->
     <link href="${pageContext.request.contextPath}/static/css/bootstrap.min.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath}/static/font-awesome/css/font-awesome.css" rel="stylesheet">
 
@@ -39,14 +47,18 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><div
                                     style="font-size: 30px;color: red"></div></strong>
-                             </span> <span class="text-muted text-xs block">用户${worker.workerName}<b
-                                    class="caret"></b></span> </span> </a>
+                             </span> <span class="text-muted text-xs block"><c:if
+                                    test="${worker.subjectId == 0}">管理员</c:if>
+                                <c:if test="${worker.subjectId == 2}">用户</c:if>
+                                <c:if test="${worker.subjectId == 1}">项目经理</c:if>
+                                ${worker.workerName}
+                                <b class="caret"></b></span> </span> </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="profile.jsp">个人主页</a></li>
-                            <li><a href="permission.jsp">我的权限</a></li>
-                            <li><a href="mailbox.jsp">我要投诉</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/profile.do">个人主页</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/permission.do">我的权限</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/mailbox.do">我要投诉</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.jsp">退出登录</a></li>
+                            <li><a href="${pageContext.request.contextPath}/WorkerController/loginOut">退出登录</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -57,30 +69,37 @@
                     <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">用户管理</span> <span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li class="active"><a
-                                href="${pageContext.request.contextPath}/BaseController/useradd.do">手动添加用户</a></li>
+                        <c:if test="${worker.subjectId == 0}">
+                            <li class="active"><a
+                                    href="${pageContext.request.contextPath}/BaseController/useradd.do">手动添加用户</a></li>
+                        </c:if>
+
                         <li><a href="${pageContext.request.contextPath}/BaseController/base.do">员工信息</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/base.do">经理信息</a></li>
+                        <c:if test="${worker.subjectId == 0}">
+                            <li><a href="${pageContext.request.contextPath}/BaseController/base.do">经理信息</a></li>
+                        </c:if>
                     </ul>
                 </li>
+                <c:if test="${worker.subjectId <=1}">
+                    <li>
+                        <a href="#"><i class="fa fa-bar-chart-o"></i> <span class="nav-label">工程管理</span><span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li><a href="${pageContext.request.contextPath}/BaseController/project.do">项目信息</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/supplier.do">供应商资料</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/material.do">建材资料</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/warehouse.do">仓库资料</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/location.do">项目场地信息</a></li>
+                            <li><a href="${pageContext.request.contextPath}/BaseController/subject.do">部门详情</a></li>
+                        </ul>
+                    </li>
+                </c:if>
                 <li>
-                    <a href="#"><i class="fa fa-bar-chart-o"></i>  <span class="nav-label">工程管理</span><span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li><a href="${pageContext.request.contextPath}/BaseController/project.do">项目信息</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/supplier.do">供应商资料</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/material.do">建材资料</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/warehouse.do">仓库资料</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/location.do">项目场地信息</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/subject.do">部门详情</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-envelope"></i>  <span class="nav-label">站内信箱</span><span
+                    <a href="#"><i class="fa fa-envelope"></i> <span class="nav-label">站内信箱</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
                         <li><a href="${pageContext.request.contextPath}/BaseController/message.do">收件箱</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/message.do">发件箱</a></li>
+                        <li><a href="${pageContext.request.contextPath}/BaseController/message.do">发邮件</a></li>
                         <li><a href="${pageContext.request.contextPath}/BaseController/message.do">回收站</a></li>
                     </ul>
                 </li>
@@ -88,23 +107,29 @@
                     <a href="#"><i class="fa fa-edit"></i> <span class="nav-label">站内公告</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level collapse">
-                        <li><a href="${pageContext.request.contextPath}/BaseController/notice.do">发布公告</a></li>
+                        <c:if test="${worker.subjectId == 1}">
+                            <li><a href="${pageContext.request.contextPath}/BaseController/notice.do">发布公告</a></li>
+                        </c:if>
                         <li><a href="${pageContext.request.contextPath}/BaseController/notice.do">查看公告内容</a></li>
-                        <li><a href="${pageContext.request.contextPath}/BaseController/notice.do">删除公告</a></li>
+                        <c:if test="${worker.subjectId == 1}">
+                            <li><a href="${pageContext.request.contextPath}/BaseController/notice.do">删除公告</a></li>
+                        </c:if>
                     </ul>
                 </li>
-                <li>
-                    <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">项目详情</span><span
-                            class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level collapse">
-                        <li>
-                            <a href="${pageContext.request.contextPath}/BaseController/projectMaterial.do">项目材料需求供应情况</a>
-                        </li>
-                        <li>
-                            <a href="${pageContext.request.contextPath}/BaseController/warehouseMaterial.do">厂库存储货物情况</a>
-                        </li>
-                    </ul>
-                </li>
+                <c:if test="${worker.subjectId <= 1 }">
+                    <li>
+                        <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">项目详情</span><span
+                                class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level collapse">
+                            <li>
+                                <a href="${pageContext.request.contextPath}/BaseController/projectMaterial.do">项目材料需求供应情况</a>
+                            </li>
+                            <li>
+                                <a href="${pageContext.request.contextPath}/BaseController/warehouseMaterial.do">厂库存储货物情况</a>
+                            </li>
+                        </ul>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </nav>
@@ -123,7 +148,7 @@
                         <span class="m-r-sm text-muted welcome-message">欢迎来到管理平台</span>
                     </li>
                     <li>
-                        <a href="login.jsp">
+                        <a href="${pageContext.request.contextPath}/WorkerController/loginOut">
                             <i class="fa fa-sign-out"></i> 注销
                         </a>
                     </li>
@@ -157,30 +182,44 @@
                                         <th>年龄</th>
                                         <th>电话</th>
                                         <th>emali</th>
+                                        <th>工资</th>
+
                                         <th>操作</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <c:forEach items="${workers}" var="worker">
+                                    <jsp:useBean id="workers" scope="request" type="java.util.List"/>
+                                    <c:forEach items="${workers}" var="i">
                                         <tr class="gradeX" id="row">
-                                            <td>${worker.workerId}</td>
-                                            <td>﻿﻿ ${worker.subjectId}</td>
-                                            <td>﻿﻿ ${worker.workerName}</td>
-                                            <td>${worker.workerSex}</td>
-                                            <td>${worker.workerAddress}</td>
-                                            <td>${worker.workerAge}</td>
-                                            <td>${worker.workerPhone}</td>
-                                            <td class="center">${worker.workerEmail}</td>
+                                            <td>${i.workerId}</td>
+                                            <td>﻿﻿ ${i.subjectId}</td>
+                                            <td>﻿﻿ ${i.workerName}</td>
+                                            <td>${i.workerSex}</td>
+                                            <td>${i.workerAddress}</td>
+                                            <td>${i.workerAge}</td>
+                                            <td>${i.workerPhone}</td>
+                                            <td class="center">${i.workerEmail}</td>
+                                            <td>${i.workerMoney}</td>
                                             <td class="center">
+                                                <a href="${pageContext.request.contextPath}/WorkerController/query.do?workerId=${worker.workerId}">
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            data-target="#myModal2" onclick="saveUserInfo()">
+                                                            id="myshow" onclick="myshow(${i})">
+                                                        查看介绍
+                                                    </button>
+                                                </a>
+
+
+                                                <c:if test="${worker.subjectId == 0 || worker.subjectId == 1}">
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                            data-target="#myModal">
                                                         编辑
                                                     </button>
 
                                                     <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                            data-target="#myModal5" onclick="deleteUser(${worker.workerId})">
+                                                            onclick="deleteUser(${i.workerId})">
                                                         删除
                                                     </button>
+                                                </c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -197,6 +236,7 @@
                                         <th>年龄</th>
                                         <th>电话</th>
                                         <th>emali</th>
+                                        <th>工资</th>
                                         <th>操作</th>
                                     </tr>
                                     </tfoot>
@@ -215,66 +255,98 @@
 </div>
 
 
-
-
-
-
-<!--编辑的模态框-->
-<div class="modal inmodal" id="edit-modal" tabindex="-1" role="dialog"
-     aria-hidden="true">
+<div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content animated bounceInRight">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true" id="edit-modal-close1">&times;</span><span
-                        class="sr-only">Close</span>
-                </button>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
                 <i class="fa fa-laptop modal-icon"></i>
-                <h4 class="modal-title">用户信息</h4>
-            </div>
-            <div class="modal-body" id="edit-modal-body"></div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-white" data-dismiss="modal"
-                        id="edit-modal-close">关闭</button>
-                <button type="button" class="btn btn-primary"
-                        onclick="saveUserInfo()">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!--增加用户的模态框-->
-<div class="modal inmodal" id="addUserInfo" tabindex="-1" role="dialog"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content animated bounceInRight">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">
-                    <span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-                </button>
-                <i class="fa fa-laptop modal-icon"></i>
-                <h4 class="modal-title">添加用户</h4>
+                <h4 class="modal-title">编辑信息</h4>
             </div>
             <div class="modal-body">
-                <form method="get" class="form-horizontal">
+                <form class="m-t" role="form" action="${pageContext.request.contextPath}/WorkerController/update.do"
+                      method="post">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">学号</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" value="1111111111">
-                        </div>
+                        工号:<input class="form-control" type="text" name="workerId" value="" placeholder="工号">
+                    </div>
+                    <div class="form-group">
+                        部门号:<input class="form-control" type="text" name="workerSubjectId" value="" placeholder="部门号">
+                    </div>
+                    <div class="form-group">
+                        姓名: <input class="form-control" type="text" name="workerName" value="" placeholder="姓名">
+
+                    </div>
+                    <div class="form-group">
+                        男:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="男"
+                                 placeholder="${i.workerSex}">
+                        女:<input style="height: 30px;width: 30px" type="radio" name="workerSex" value="女"
+                                 placeholder="${i.workerSex}">
+                    </div>
+                    <div class="form-group">
+                        地址: <input class="form-control" type="text" name="workerAddress" value=""
+                                   placeholder="地址">
+                    </div>
+                    <div class="form-group">
+                        年龄: <input class="form-control" type="text" name="workerAge" value="" placeholder="年龄">
+                    </div>
+                    <div class="form-group">
+                        电话: <input class="form-control" type="text" name="workerPhone" value=""
+                                   placeholder="电话">
+                    </div>
+                    <div class="form-group">
+                        emali: <input class="form-control" type="text" name="workerEmail" value=""
+                                      placeholder="emali">
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary">保存设置</button>
                     </div>
                 </form>
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal inmodal" id="myModal2" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content animated flipInY">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+                        class="sr-only">Close</span></button>
+                <h4 class="modal-title">员工评价</h4>
+
+            </div>
+            <div class="modal-body">
+                <p><strong>${workers.get(3).workerDesc}</strong> ~~~~~~~~~~~~~~~~~~~·.</p>
+            </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
-                <button type="submit" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
 </div>
 
+<%--<div class="modal inmodal fade" id="myModal5" tabindex="-1" role="dialog"  aria-hidden="true">--%>
+<%--<div class="modal-dialog modal-lg">--%>
+<%--<div class="modal-content">--%>
+<%--<div class="modal-header">--%>
+<%--<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>--%>
+<%--<h4 class="modal-title">删除学生信息</h4>--%>
+<%--<small class="font-bold">在这里删除学生信息</small>--%>
+<%--</div>--%>
+<%--<div class="modal-body">--%>
+<%--<p><strong>你确定删除这个学生吗</strong> 没有后悔药的.</p>--%>
+<%--</div>--%>
 
-
-
+<%--<div class="modal-footer">--%>
+<%--<button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>--%>
+<%--<button type="button" class="btn btn-primary">删除并退出</button>--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--</div>--%>
+<%--</div>--%>
 
 
 <!-- Mainly scripts -->
@@ -288,7 +360,10 @@
 <!-- Custom and plugin javascript -->
 <script src="${pageContext.request.contextPath}/static/js/inspinia.js"></script>
 <script src="${pageContext.request.contextPath}/static/js/plugins/pace/pace.min.js"></script>
-
+<!-- Custom and plugin javascript -->
+<script src="${pageContext.request.contextPath}/static/js/plugins/wow/wow.min.js"></script>
+<!-- Sweet alert    这个是跳出动态模态框的js-->
+<script src="${pageContext.request.contextPath}/static/js/plugins/sweetalert/sweetalert.min.js"></script>
 
 <!-- Toastr -->
 <script src="${pageContext.request.contextPath}/static/js/plugins/toastr/toastr.min.js"></script>
@@ -309,7 +384,7 @@
         }, 3000);
     });
 
-//把使用的datatables改为中文
+    //把使用的datatables改为中文
     $(document).ready(function () {
         $('.dataTables-example').DataTable({
             language: {
@@ -351,31 +426,33 @@
 
 </script>
 </body>
-<script>
+<script type="text/javascript">
+
     // 删除用户ajex
     function deleteUser(id) {
         swal({
-            title : "您确定删除此用户信息么?",
-            text : "删除后将无法恢复，请谨慎操作！",
-            type : "warning",
-            showCancelButton : true,
-            confirmButtonColor : "#DD6B55",
-            confirmButtonText : "确定",
-            cancelButtonText : "取消",
-            closeOnConfirm : false,
-            closeOnCancel : false
-        }, function(isConfirm) {
+            title: "您确定删除此用户信息么?",
+            text: "删除后将无法恢复，请谨慎操作！",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            closeOnConfirm: false,
+            closeOnCancel: false
+        }, function (isConfirm) {
             if (isConfirm) {
                 $.ajax({
                     /*这里为请求地址*/
-                    url : "deleteCon?number=" + id,
-                    dataType : "html",
-                    success : function(data) {//意思是如果请求成功，即删除成功
-                        alert(data);
+                    url: "${pageContext.request.contextPath}/WorkerController/delete.do?workerId=" + id,
+                    dataType: "html",
+                    success: function (data) {//意思是如果请求成功，即删除成功
+                        // alert(data);
                         $("#table-content").html(data)
                         swal("删除成功！", "您已经永久删除了该用户信息", "success");
+                        location.reload(true);
                     },
-                    error : function() {//如果请求失败，则弹出下面的提示
+                    error: function () {//如果请求失败，则弹出下面的提示
                         swal("啊哦，删除失败", "服务器走丢了", "error");
                     }
                 });
@@ -384,14 +461,21 @@
                 swal("已取消", "您取消了删除操作！", "error");
             }
         });
-    };
+    }
 </script>
+
 <script type="text/javascript">
+    $(document).read(function () {
+        $('#myshow').click(function () {
+            $("#myModal").modal(options);
+        });
+    });
+
     function queryUserInfoByNumber(number) {
         $.ajax({
-            url : "queryUserInfo?number=" + number,
-            dataType : "html",
-            success : function(data) {
+            url: "queryUserInfo?number=" + number,
+            dataType: "html",
+            success: function (data) {
                 $("#edit-modal-body").html(data);
                 $("#edit-modal").show();
             }
@@ -402,10 +486,10 @@
 <script type="text/javascript">
     function saveUserInfo() {
         $.ajax({
-            url : "saveUserServlet",
-            data : $("#edit-form").serialize(),
-            dataType : "html",
-            success : function(data) {
+            url: "saveUserServlet",
+            data: $("#edit-form").serialize(),
+            dataType: "html",
+            success: function (data) {
                 $("#edit-modal").hide();
                 $("#table-content").html(data)
             }

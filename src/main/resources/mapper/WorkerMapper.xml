@@ -9,7 +9,12 @@
     <result column="worker_leader" property="workerLeader" jdbcType="INTEGER" />
     <result column="worker_age" property="workerAge" jdbcType="INTEGER" />
     <result column="worker_img_url" property="workerImgUrl" jdbcType="VARCHAR" />
+    <result column="worker_email" property="workerEmail" jdbcType="VARCHAR" />
+    <result column="worker_phone" property="workerPhone" jdbcType="VARCHAR" />
+    <result column="worker_address" property="workerAddress" jdbcType="VARCHAR" />
     <result column="worker_desc" property="workerDesc" jdbcType="VARCHAR" />
+    <result column="worker_sex" property="workerSex" jdbcType="VARCHAR" />
+    <result column="worker_money" property="workerMoney" jdbcType="DOUBLE" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -71,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     worker_id, subject_id, worker_name, worker_password, worker_leader, worker_age, worker_img_url, 
-    worker_desc
+    worker_email, worker_phone, worker_address, worker_desc, worker_sex, worker_money
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.cdm.model.WorkerExample" >
     select
@@ -106,10 +111,14 @@
   <insert id="insert" parameterType="com.cdm.model.Worker" >
     insert into worker (worker_id, subject_id, worker_name, 
       worker_password, worker_leader, worker_age, 
-      worker_img_url, worker_desc)
+      worker_img_url, worker_email, worker_phone, 
+      worker_address, worker_desc, worker_sex, 
+      worker_money)
     values (#{workerId,jdbcType=INTEGER}, #{subjectId,jdbcType=INTEGER}, #{workerName,jdbcType=VARCHAR}, 
       #{workerPassword,jdbcType=VARCHAR}, #{workerLeader,jdbcType=INTEGER}, #{workerAge,jdbcType=INTEGER}, 
-      #{workerImgUrl,jdbcType=VARCHAR}, #{workerDesc,jdbcType=VARCHAR})
+      #{workerImgUrl,jdbcType=VARCHAR}, #{workerEmail,jdbcType=VARCHAR}, #{workerPhone,jdbcType=VARCHAR}, 
+      #{workerAddress,jdbcType=VARCHAR}, #{workerDesc,jdbcType=VARCHAR}, #{workerSex,jdbcType=VARCHAR}, 
+      #{workerMoney,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="com.cdm.model.Worker" >
     insert into worker
@@ -135,8 +144,23 @@
       <if test="workerImgUrl != null" >
         worker_img_url,
       </if>
+      <if test="workerEmail != null" >
+        worker_email,
+      </if>
+      <if test="workerPhone != null" >
+        worker_phone,
+      </if>
+      <if test="workerAddress != null" >
+        worker_address,
+      </if>
       <if test="workerDesc != null" >
         worker_desc,
+      </if>
+      <if test="workerSex != null" >
+        worker_sex,
+      </if>
+      <if test="workerMoney != null" >
+        worker_money,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -161,8 +185,23 @@
       <if test="workerImgUrl != null" >
         #{workerImgUrl,jdbcType=VARCHAR},
       </if>
+      <if test="workerEmail != null" >
+        #{workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="workerPhone != null" >
+        #{workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerAddress != null" >
+        #{workerAddress,jdbcType=VARCHAR},
+      </if>
       <if test="workerDesc != null" >
         #{workerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSex != null" >
+        #{workerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="workerMoney != null" >
+        #{workerMoney,jdbcType=DOUBLE},
       </if>
     </trim>
   </insert>
@@ -196,8 +235,23 @@
       <if test="record.workerImgUrl != null" >
         worker_img_url = #{record.workerImgUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.workerEmail != null" >
+        worker_email = #{record.workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerPhone != null" >
+        worker_phone = #{record.workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerAddress != null" >
+        worker_address = #{record.workerAddress,jdbcType=VARCHAR},
+      </if>
       <if test="record.workerDesc != null" >
         worker_desc = #{record.workerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerSex != null" >
+        worker_sex = #{record.workerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerMoney != null" >
+        worker_money = #{record.workerMoney,jdbcType=DOUBLE},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -213,7 +267,12 @@
       worker_leader = #{record.workerLeader,jdbcType=INTEGER},
       worker_age = #{record.workerAge,jdbcType=INTEGER},
       worker_img_url = #{record.workerImgUrl,jdbcType=VARCHAR},
-      worker_desc = #{record.workerDesc,jdbcType=VARCHAR}
+      worker_email = #{record.workerEmail,jdbcType=VARCHAR},
+      worker_phone = #{record.workerPhone,jdbcType=VARCHAR},
+      worker_address = #{record.workerAddress,jdbcType=VARCHAR},
+      worker_desc = #{record.workerDesc,jdbcType=VARCHAR},
+      worker_sex = #{record.workerSex,jdbcType=VARCHAR},
+      worker_money = #{record.workerMoney,jdbcType=DOUBLE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -239,8 +298,23 @@
       <if test="workerImgUrl != null" >
         worker_img_url = #{workerImgUrl,jdbcType=VARCHAR},
       </if>
+      <if test="workerEmail != null" >
+        worker_email = #{workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="workerPhone != null" >
+        worker_phone = #{workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerAddress != null" >
+        worker_address = #{workerAddress,jdbcType=VARCHAR},
+      </if>
       <if test="workerDesc != null" >
         worker_desc = #{workerDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSex != null" >
+        worker_sex = #{workerSex,jdbcType=VARCHAR},
+      </if>
+      <if test="workerMoney != null" >
+        worker_money = #{workerMoney,jdbcType=DOUBLE},
       </if>
     </set>
     where worker_id = #{workerId,jdbcType=INTEGER}
@@ -253,7 +327,12 @@
       worker_leader = #{workerLeader,jdbcType=INTEGER},
       worker_age = #{workerAge,jdbcType=INTEGER},
       worker_img_url = #{workerImgUrl,jdbcType=VARCHAR},
-      worker_desc = #{workerDesc,jdbcType=VARCHAR}
+      worker_email = #{workerEmail,jdbcType=VARCHAR},
+      worker_phone = #{workerPhone,jdbcType=VARCHAR},
+      worker_address = #{workerAddress,jdbcType=VARCHAR},
+      worker_desc = #{workerDesc,jdbcType=VARCHAR},
+      worker_sex = #{workerSex,jdbcType=VARCHAR},
+      worker_money = #{workerMoney,jdbcType=DOUBLE}
     where worker_id = #{workerId,jdbcType=INTEGER}
   </update>
 </mapper>

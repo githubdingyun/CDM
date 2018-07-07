@@ -30,7 +30,7 @@ public class WorkerController {
             Worker worker = workers.get(0);
             request.getSession().setAttribute("worker",worker);
 
-            return "manager";
+            return "redirect:/BaseController/base.do";
         }
         else {
             String message = "登陆失败~~·";
@@ -47,4 +47,46 @@ public class WorkerController {
         request.setAttribute("message",message);
         return "../../login";
     }
+
+
+    @RequestMapping("/loginOut")
+    public String loginOut(HttpServletRequest request,HttpServletResponse response){
+        request.getSession().invalidate();
+        return "../../login";
+    }
+
+
+
+    @RequestMapping("/add.do")
+    public String add(Worker worker,HttpServletRequest request,HttpServletResponse response){
+        workerService.insert(worker);
+        return "redirect:/BaseController/base.do";
+
+    }
+
+    @RequestMapping("/delete.do")
+    public String delete(Worker worker,HttpServletRequest request,HttpServletResponse response){
+        workerService.deleteByPrimaryKey(worker.getWorkerId());
+        return "redirect:/BaseController/base.do";
+
+
+    }
+
+    @RequestMapping("/query.do")
+    public String query(Worker worker,HttpServletRequest request,HttpServletResponse response){
+        Worker worker1 = workerService.selectByPrimaryKey(worker.getWorkerId());
+        request.setAttribute("worker1",worker1);
+        return "redirect:/BaseController/show.do";
+    }
+
+    @RequestMapping("/update.do")
+    public String update(Worker worker,HttpServletRequest request,HttpServletResponse response){
+        workerService.updateByPrimaryKeySelective(worker);
+        return "redirect:/BaseController/base.do";
+    }
+
+
+
+
+
 }
